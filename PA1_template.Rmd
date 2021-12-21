@@ -16,6 +16,7 @@ setwd("G:/R/reproducible_research/RepData_PeerAssessment1")
 
 library(ggplot2)
 ```
+
 ## Loading and processing the data
 ```{r}
 PA1_data <- "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
@@ -47,8 +48,6 @@ hist(act_steps_total$steps, main = "Total Number of Steps Taken Per Day",
 
 
 #### Calculate and report the mean and median of the total number of steps taken per day.
-
-
 ```{r}
 mean(act_steps_total$steps)
 
@@ -57,6 +56,7 @@ mean(act_steps_total$steps)
 ```{r}
 median(act_steps_total$steps)
 ```
+
 ## What is the average daily activity pattern?
 
 #### Make a time series plot (i.e. \color{red}{\verb|type = "l"|}type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
@@ -81,10 +81,12 @@ avg_act_daily[which.max(avg_act_daily$mean), ]$interval
 ```{r}
 sum(is.na(act$steps))
 ```
+
 #### Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 ```{r}
 imputed_steps <- avg_act_daily$mean[match(act$interval, avg_act_daily$interval)]
 ```
+
 #### Create a new dataset that is equal to the original dataset but with the missing data filled in.
 ```{r}
 act_imputed <- transform(act, steps = ifelse(is.na(act$steps),
@@ -93,7 +95,6 @@ act_imputed <- transform(act, steps = ifelse(is.na(act$steps),
 imputed_steps_total <- aggregate(steps ~ date, act_imputed, sum)
 names(imputed_steps_total) <- c("date", "daily_steps")
 ```
-
 
 #### Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 ```{r}
@@ -121,6 +122,7 @@ act$datetype <- sapply(act$date, function(x) {
   y
 })
 ```
+
 #### Make a panel plot containing a time series plot (i.e. \color{red}{\verb|type = "l"|}type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 ```{r}
 act_by_day <- aggregate(steps~interval + datetype, act, mean, na.rm = TRUE)

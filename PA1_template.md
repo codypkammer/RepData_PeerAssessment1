@@ -17,6 +17,7 @@ setwd("G:/R/reproducible_research/RepData_PeerAssessment1")
 
 library(ggplot2)
 ```
+
 ## Loading and processing the data
 
 ```r
@@ -47,12 +48,10 @@ hist(act_steps_total$steps, main = "Total Number of Steps Taken Per Day",
      breaks = seq(0,25000, by=2500))
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
 
 #### Calculate and report the mean and median of the total number of steps taken per day.
-
-
 
 ```r
 mean(act_steps_total$steps)
@@ -70,6 +69,7 @@ median(act_steps_total$steps)
 ```
 ## [1] 10395
 ```
+
 ## What is the average daily activity pattern?
 
 #### Make a time series plot (i.e. \color{red}{\verb|type = "l"|}type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
@@ -84,7 +84,7 @@ plot(avg_act_daily$interval, avg_act_daily$mean, type = "l",
      main="Average Number of Steps Per Time Period")
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7-1.png)
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6-1.png)
 
 
 #### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
@@ -107,11 +107,13 @@ sum(is.na(act$steps))
 ```
 ## [1] 2304
 ```
+
 #### Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
 ```r
 imputed_steps <- avg_act_daily$mean[match(act$interval, avg_act_daily$interval)]
 ```
+
 #### Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
 ```r
@@ -122,7 +124,6 @@ imputed_steps_total <- aggregate(steps ~ date, act_imputed, sum)
 names(imputed_steps_total) <- c("date", "daily_steps")
 ```
 
-
 #### Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 ```r
@@ -131,7 +132,7 @@ hist(imputed_steps_total$daily_steps, col = "green",
      main = "Total Number of Steps Taken Each Day", breaks = seq(0,25000,by=2500))
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12-1.png)
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png)
 
 
 ```r
@@ -163,6 +164,7 @@ act$datetype <- sapply(act$date, function(x) {
   y
 })
 ```
+
 #### Make a panel plot containing a time series plot (i.e. \color{red}{\verb|type = "l"|}type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
 ```r
@@ -175,4 +177,4 @@ ggplot(act_by_day, aes(x = interval , y = steps, color = datetype)) +
   facet_wrap(~datetype, ncol = 1, nrow=2)
 ```
 
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16-1.png)
+![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-15-1.png)
